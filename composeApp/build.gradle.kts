@@ -55,8 +55,14 @@ compose.desktop {
 		mainClass = "MainKt"
 
 		nativeDistributions {
+			buildTypes.release {
+				proguard {
+					configurationFiles.from("compose-desktop.pro")
+				}
+			}
+
 			targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
-			packageName = "org.example.project"
+			packageName = "Mans Life"
 			packageVersion = "1.0.0"
 		}
 	}

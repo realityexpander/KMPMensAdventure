@@ -162,8 +162,6 @@
         }
 
         function getGpsLocation(callback) {
-            //callback( { latitude: 0.0, longitude: 0.0 } );
-
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(
                    function(position) {
@@ -171,7 +169,8 @@
                    },
                    function(error) {
                       callback({ error: error.message });
-                   }
+                   },
+                   { enableHighAccuracy: true, timeout: 1000 }
                 );
             } else {
                 callback( { error: "Geolocation is not supported by this browser." } );

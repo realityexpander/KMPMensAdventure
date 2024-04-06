@@ -16,6 +16,7 @@ import androidx.compose.ui.unit.sp
 import io.github.koalaplot.core.util.ExperimentalKoalaPlotApi
 import kotlinproject.composeapp.generated.resources.Res
 import kotlinproject.composeapp.generated.resources.compose_multiplatform
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
@@ -72,6 +73,8 @@ fun App(
 		val drawerState = rememberDrawerState(DrawerValue.Closed)
 
 		val url by remember { mutableStateOf("https://www.youtube.com/embed/Y7rSvV6caVQ") }
+//		var gpsLocation by remember { mutableStateOf(GeolocationPosition(37.7749, -122.4194, "")) }
+		var gpsLocation by remember { mutableStateOf("") }
 
 		LaunchedEffect(Unit) {
 			delay(100)
@@ -217,10 +220,18 @@ fun App(
 										health = it.health - 10
 									)
 								}
+
+								scope.launch {
+									getGpsLocation {
+										gpsLocation = "Lat: ${it.latitude}, Long: ${it.longitude}, Error: ${it.error}"
+									}
+								}
 							}
 						) {
 							Text("Go on to School")
 						}
+
+						Text("GPS Result:$gpsLocation")
 
 //						BulletGraph {
 //							label {
@@ -265,3 +276,22 @@ fun App(
 
 expect fun setVideoCoordinates(x: Int, y: Int, width: Int, height: Int)
 expect fun setVideoVisible(visible: Boolean)
+
+//class GeolocationPosition(lat: Double, long: Double, err: String) {
+//	val latitude: Double
+//	val longitude: Double
+//	val error: String
+//}
+
+//data class GeolocationPosition(
+external interface GeolocationPosition {
+	val latitude: Double?
+	val longitude: Double?
+	val error: String?
+}
+
+expect fun getGpsLocation(callback: (GeolocationPosition) -> Unit)
+//expect fun getGpsLocation(callback: (String) -> Unit)
+
+
+

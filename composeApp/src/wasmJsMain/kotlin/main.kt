@@ -6,20 +6,34 @@ fun main() {
     CanvasBasedWindow(canvasElementId = "ComposeTarget") {
         App(
            onLoadFinished = ::onLoadFinished,
-//           setVideoCoordinates = ::setVideoCoordinates
         )
     }
 }
 
 external fun onLoadFinished()
 
-//external fun setVideoCoordinates(x: Int, y: Int, width: Int, height: Int)
+//external fun setVideoCoordinates(x: Int, y: Int, width: Int, height: Int)  // calls JS function using ::setVideoCoordinates
 actual fun setVideoCoordinates(x: Int, y: Int, width: Int, height: Int) {
-    // Call the JS function
-      js("setVideoCoordinates(x, y, width, height)")
+   js("setVideoCoordinates(x, y, width, height)")
 }
 
 actual fun setVideoVisible(visible: Boolean) {
-    // Call the JS function
-    js("setVideoVisible(visible)")
+   js("setVideoVisible(visible)")
+}
+
+//external class GeolocationPosition
+//{
+//   val latitude: Double
+//   val longitude: Double
+//   val error: String
+//}
+
+//external fun getGpsLocation(callback: (GPSCoords) -> Unit)
+
+//actual fun getGpsLocation(callback: (GeolocationPosition) -> Unit) {
+//   js("getGpsLocation(callback)")
+//}
+//actual fun getGpsLocation(callback: (String) -> Unit) {
+actual fun getGpsLocation(callback: (GeolocationPosition) -> Unit) {
+   js("getGpsLocation(callback)")
 }

@@ -2,7 +2,6 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8"> <!-- note: no meta viewport tag here -->
-    <meta name="viewport" content="initial-scale=1.0">
     <title>Compose App</title>
 
     <script type="application/javascript" src="skiko.js"></script>
@@ -159,6 +158,23 @@
                 document.getElementById("player").style.visibility = "visible";
             } else {
                 document.getElementById("player").style.visibility = "hidden";
+            }
+        }
+
+        function getGpsLocation(callback) {
+            //callback( { latitude: 0.0, longitude: 0.0 } );
+
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                   function(position) {
+                      callback({ latitude: position.coords.latitude, longitude: position.coords.longitude });
+                   },
+                   function(error) {
+                      callback({ error: error.message });
+                   }
+                );
+            } else {
+                callback( { error: "Geolocation is not supported by this browser." } );
             }
         }
     </script>

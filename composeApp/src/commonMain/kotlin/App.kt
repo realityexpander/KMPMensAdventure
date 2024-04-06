@@ -1,22 +1,18 @@
-import androidx.compose.foundation.gestures.FlingBehavior
-import androidx.compose.foundation.gestures.ScrollScope
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import io.github.koalaplot.core.bar.BulletGraph
-import io.github.koalaplot.core.style.KoalaPlotTheme
 import io.github.koalaplot.core.util.ExperimentalKoalaPlotApi
 import kotlinproject.composeapp.generated.resources.Res
 import kotlinproject.composeapp.generated.resources.compose_multiplatform
@@ -56,7 +52,7 @@ data class GameState(
 @OptIn(ExperimentalResourceApi::class, ExperimentalMaterialApi::class, ExperimentalKoalaPlotApi::class)
 @Composable
 fun App(
-	onLoadFinished: () -> Unit
+	onLoadFinished: () -> Unit = {}
 ) {
 	MaterialTheme(
 		typography = Typography(
@@ -64,9 +60,10 @@ fun App(
 			body1 = TextStyle(
 				fontFamily = FontFamily.Default,
 				fontSize = 18.sp,
-				color = Color.Black
+				color = Color.White
 			),
 		),
+		colors = darkColors()
 	) {
 		val scope = rememberCoroutineScope()
 		val state = MutableStateFlow<GameState>(GameState())
@@ -74,17 +71,25 @@ fun App(
 		val scaffoldState = rememberBottomSheetScaffoldState()
 		val drawerState = rememberDrawerState(DrawerValue.Closed)
 
+		val url by remember { mutableStateOf("https://www.youtube.com/embed/Y7rSvV6caVQ") }
+
 		LaunchedEffect(Unit) {
-			delay(500)
+			delay(100)
 			onLoadFinished()
 		}
 
+		// Hide the video when the drawer is open
+		LaunchedEffect(drawerState.isOpen) {
+			setVideoVisible(drawerState.currentValue == DrawerValue.Closed)
+		}
+
 		ModalDrawer(
-			modifier = Modifier.fillMaxSize(),
+			modifier = Modifier
+				.fillMaxSize(),
 			drawerContent = {
 				Text("Drawer content")
 			},
-			gesturesEnabled = false,
+			gesturesEnabled = true,
 			drawerState = drawerState,
 		) {
 			BottomSheetScaffold(
@@ -120,7 +125,10 @@ fun App(
 					TopAppBar(
 						title = { Text("ComposeApp") },
 						navigationIcon = {
-							IconButton(onClick = { scope.launch { drawerState.open() } }) {
+							IconButton(onClick = { scope.launch {
+								setVideoVisible(false)
+								drawerState.open()
+							} }) {
 								Icon(Icons.Default.Menu, null)
 							}
 						},
@@ -135,11 +143,8 @@ fun App(
 					Column(
 						Modifier
 							.fillMaxSize()
-//							.verticalScroll(
-//								state=rememberScrollState(),
-//								enabled = true,
-//							),
-								,
+							.background(Color.DarkGray)
+							.padding(16.dp),
 						horizontalAlignment = Alignment.Start
 					) {
 						//Image(painterResource(Res.drawable.compose_multiplatform), null, modifier = Modifier.size(128.dp) )
@@ -149,10 +154,6 @@ fun App(
 
 						Button(
 							onClick = {
-//								state2.value = state.value.copy(
-//									age = state.value.age + 1
-//								)
-
 								state.update {
 									it.copy(
 										age = it.age + 1,
@@ -162,6 +163,15 @@ fun App(
 										emotionalHappiness = it.emotionalHappiness + 1
 									)
 								}
+							},
+							// Find the coordinates of this button
+							modifier = Modifier.onGloballyPositioned { coordinates ->
+								setVideoCoordinates(
+									coordinates.localToWindow(Offset.Zero).x.toInt(),
+									coordinates.localToWindow(Offset.Zero).y.toInt(),
+									coordinates.size.width,
+									coordinates.size.height
+								)
 							}
 						) {
 							Text("Do Nothing")
@@ -252,3 +262,6 @@ fun App(
 		}
 	}
 }
+
+expect fun setVideoCoordinates(x: Int, y: Int, width: Int, height: Int)
+expect fun setVideoVisible(visible: Boolean)

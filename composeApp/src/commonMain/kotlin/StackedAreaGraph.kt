@@ -21,6 +21,7 @@ import io.github.koalaplot.core.util.VerticalRotation
 import io.github.koalaplot.core.util.rotateVertically
 import io.github.koalaplot.core.util.toString
 import io.github.koalaplot.core.xygraph.*
+import org.jetbrains.compose.ui.tooling.preview.Preview
 import kotlin.random.Random
 
 /**
@@ -121,7 +122,7 @@ fun StackedAreaSample(thumbnail: Boolean, title: String) {
 				if (!thumbnail) {
 					Box(modifier = Modifier.fillMaxHeight(), contentAlignment = Alignment.Center) {
 						AxisTitle(
-							"Population (Millions)",
+							"Points",
 							modifier = Modifier.rotateVertically(VerticalRotation.COUNTER_CLOCKWISE)
 						)
 					}
@@ -252,4 +253,11 @@ fun AxisLabel(label: String, modifier: Modifier = Modifier) {
 		overflow = TextOverflow.Ellipsis,
 		maxLines = 1
 	)
+}
+
+@Preview
+@Composable
+fun StackedAreaSamplePreview() {
+	//StackedAreaSample(true, "Your Stats Over Time")
+	Text("StackedAreaSamplePreview")
 }

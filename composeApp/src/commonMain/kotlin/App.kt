@@ -1,5 +1,7 @@
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
@@ -147,7 +149,10 @@ fun App(
 						Modifier
 							.fillMaxSize()
 							.background(Color.DarkGray)
-							.padding(16.dp),
+							.padding(16.dp)
+							.verticalScroll(state= rememberScrollState())
+						,
+
 						horizontalAlignment = Alignment.Start
 					) {
 						//Image(painterResource(Res.drawable.compose_multiplatform), null, modifier = Modifier.size(128.dp) )
@@ -221,6 +226,13 @@ fun App(
 									)
 								}
 
+							}
+						) {
+							Text("Go on to School")
+						}
+
+						Button(
+							onClick = {
 								scope.launch {
 									getGpsLocation {
 										gpsLocation = "Lat: ${it.latitude}, Long: ${it.longitude}, Error: ${it.error}"
@@ -228,43 +240,10 @@ fun App(
 								}
 							}
 						) {
-							Text("Go on to School")
+							Text("Get GPS Location")
 						}
 
 						Text("GPS Result:$gpsLocation")
-
-//						BulletGraph {
-//							label {
-//								Column(
-//									horizontalAlignment = Alignment.End,
-//									modifier = Modifier.padding(end = KoalaPlotTheme.sizes.gap)
-//								) {
-//									Text(
-//										"Revenue 2005 YTD",
-//										textAlign = TextAlign.End
-//									)
-//									Text(
-//										"(US $ in thousands)",
-//										textAlign = TextAlign.End
-//									)
-//								}
-//							}
-//							axis { labels { "${it.toInt()}" } }
-//							comparativeMeasure(260f)
-//							featuredMeasureBar(275f)
-//							ranges(
-//								0f,
-//								200f,
-//								250f,
-//								300f
-//							)
-//						}
-//
-//						LazyColumn {
-//							items(100) { index ->
-//								Text("Item $index")
-//							}
-//						}
 
 						StackedAreaSample(false, "Your Stats Over Time")
 					}
@@ -277,21 +256,13 @@ fun App(
 expect fun setVideoCoordinates(x: Int, y: Int, width: Int, height: Int)
 expect fun setVideoVisible(visible: Boolean)
 
-//class GeolocationPosition(lat: Double, long: Double, err: String) {
-//	val latitude: Double
-//	val longitude: Double
-//	val error: String
-//}
-
-//data class GeolocationPosition(
-external interface GeolocationPosition {
-	val latitude: Double?
-	val longitude: Double?
-	val error: String?
-}
-
+expect class GeolocationPosition
 expect fun getGpsLocation(callback: (GeolocationPosition) -> Unit)
-//expect fun getGpsLocation(callback: (String) -> Unit)
 
-
-
+//// USING EXTERNAL
+//external fun getGpsLocation(callback: (GeolocationPosition) -> Unit)
+//external interface GeolocationPosition {
+//	val latitude: Double?
+//	val longitude: Double?
+//	val error: String?
+//}

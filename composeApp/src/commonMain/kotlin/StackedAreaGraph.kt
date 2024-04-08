@@ -86,7 +86,7 @@ private val colorPalette = listOf(
 fun StackedAreaSample(thumbnail: Boolean, title: String) {
 	ChartLayout(
 		modifier = paddingMod
-//			.height(800.dp)
+			.height(800.dp)
 		,
 		title = { ChartTitle(title) },
 		legendLocation = LegendLocation.BOTTOM

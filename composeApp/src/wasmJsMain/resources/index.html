@@ -170,7 +170,7 @@
                    function(error) {
                       callback({ error: error.message });
                    },
-                   { enableHighAccuracy: true, timeout: 1000 }
+                   { enableHighAccuracy: true, timeout: 5000 }
                 );
             } else {
                 callback( { error: "Geolocation is not supported by this browser." } );

@@ -71,7 +71,6 @@ compose.desktop {
 
 // Task to copy from ./composeApp/build/dist/wasmJs/productionExecutable to ./docs
 tasks.register("copyWasmJsToDocs") {
-//	dependsOn(":composeApp:wasmJsBrowserDistribution")
 	group = "build"
 	doLast {
 		val wasmJsDir = project.file("./build/dist/wasmJs/productionExecutable")

@@ -3,10 +3,7 @@
 <head>
     <meta charset="UTF-8"> <!-- note: no meta viewport tag here -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<!--    <meta name="viewport" content="width=800, initial-scale=1.0">-->
-<!--    <base href="docs/">-->
     <title>Compose App</title>
-
 
     <meta http-equiv="Permissions-Policy" content="interest-cohort=(), user-id=()" />
     <script type="application/javascript" src="skiko.js"></script>
@@ -72,67 +69,12 @@
            //}
 
            window.setTimeout(function() {
-              //return;
-
-              //if(false){
-              if(true) {
-                 const meta = document.createElement('meta');
-                 meta.name = "viewport";
-                 //meta.content = "width=" + (window.screen.width * window.devicePixelRatio) + ", initial-scale=1";
-                 //meta.content = "width=" + (window.screen.width / window.devicePixelRatio) + ", initial-scale=1";
-                 //meta.content = "width=" + (window.screen.width * (1 + (1/window.devicePixelRatio))) + ", initial-scale=1";
-                 //meta.content = "width=device-width, initial-scale=1";
-
-                 meta.content = "width=" + (window.screen.width * (window.devicePixelRatio/2)) + ", initial-scale=1";
-                 document.head.appendChild(meta);
-
-                 console.log("window.screen.width/height: " + window.screen.width / window.screen.height);
-              }
-
-              // Set the canvas size to the correct size for mobile devices
-              const canvas = document.getElementById("ComposeTarget");
-              //canvas.width = window.screen.width  * 2;
-              //canvas.height = window.screen.height * 2; // * window.devicePixelRatio;
-              //canvas.style = `width: ${window.screen.width * window.devicePixelRatio}px;` +
-              //               `height: ${window.screen.height * window.devicePixelRatio}px;`;
-
-              //if(window.devicePixelRatio > 2) {
-              //    //canvas.width = window.screen.width * window.devicePixelRatio;
-              //    //canvas.height = window.screen.height  * window.devicePixelRatio;
-              //    //canvas.style.width = canvas.width/2 +"px";
-              //    //canvas.style.height = canvas.height/2 +"px";
-              //    canvas.style.width = canvas.width/2 +"px";
-              //    canvas.style.height = canvas.height/2 +"px";
-              //} else {
-              //   canvas.style.width = canvas.width +"px";
-              //   canvas.style.height = canvas.height +"px";
-              //}
+             const meta = document.createElement('meta');
+             meta.name = "viewport";
+             meta.content = "width=" + (window.screen.width * (window.devicePixelRatio/2)) + ", initial-scale=1";
+             document.head.appendChild(meta);
            }, 0);
         }
-
-        var doit;
-        //window.addEventListener("resize", function(){
-        //   clearTimeout(doit);
-        //   doit = window.setTimeout(function() {
-        //      //onLoad()
-        //
-        //      // Set the canvas size to the correct size for mobile devices
-        //      const canvas = document.getElementById("ComposeTarget");
-        //      //canvas.width = window.screen.width * window.devicePixelRatio * 2;
-        //      //canvas.height = window.screen.height * window.devicePixelRatio * 2;
-        //      //canvas.style = `width: ${window.screen.width * window.devicePixelRatio}px;` +
-        //      //               `height: ${window.screen.height * window.devicePixelRatio}px;`;
-        //
-        //      if(window.devicePixelRatio > 2) {
-        //          canvas.style.width = canvas.width/2 +"px";
-        //          canvas.style.height = canvas.height/2 +"px";
-        //      } else {
-        //         canvas.style.width = canvas.width +"px";
-        //         canvas.style.height = canvas.height +"px";
-        //      }
-        //
-        //   }, 100);
-        //} );
 
         function onLoadFinished() {
             isLoaded = true;

@@ -1,3 +1,15 @@
+### To Build the web app:
+
+```shell
+# Build the web app
+./gradlew :composeApp:wasmJsBrowserDistribution
+```
+
+```shell
+# Clean the build
+./gradlew :composeApp:clean
+```
+
 This is a Kotlin Multiplatform project targeting Web.
 
 * `/composeApp` is for code that will be shared across your Compose Multiplatform applications.

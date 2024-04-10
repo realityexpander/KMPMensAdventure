@@ -68,3 +68,30 @@ compose.desktop {
 		}
 	}
 }
+
+// Task to copy from ./composeApp/build/dist/wasmJs/productionExecutable to ./docs
+tasks.register("copyWasmJsToDocs") {
+	dependsOn(":composeApp:wasmJsBrowserDistribution")
+
+	group = "build"
+	doLast {
+		val wasmJsDir = project.file("./build/dist/wasmJs/productionExecutable")
+		val docsDir = project.file("docs")
+		wasmJsDir.copyRecursively(docsDir, overwrite = true)
+	}
+}
+// Make sure the wasmJsBrowserDistribution task runs before copyWasmJsToDocs
+tasks.getByName("wasmJsBrowserDistribution").finalizedBy("copyWasmJsToDocs")
+
+
+// Task to clean ./docs
+tasks.register("cleanDocs") {
+	//dependsOn(":composeApp:clean")
+
+	group = "build"
+	doLast {
+		val docsDir = project.file("docs")
+		docsDir.deleteRecursively()
+	}
+}
+tasks.getByName("clean").dependsOn("cleanDocs")

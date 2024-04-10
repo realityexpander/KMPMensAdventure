@@ -76,7 +76,8 @@ tasks.register("copyWasmJsToDocs") {
 	group = "build"
 	doLast {
 		val wasmJsDir = project.file("./build/dist/wasmJs/productionExecutable")
-		val docsDir = project.file("docs")
+//		val docsDir = project.file("docs")
+		val docsDir = file(rootDir.path + "/docs")
 		wasmJsDir.copyRecursively(docsDir, overwrite = true)
 	}
 }
@@ -90,7 +91,8 @@ tasks.register("cleanDocs") {
 
 	group = "build"
 	doLast {
-		val docsDir = project.file("docs")
+//		val docsDir = project.file("docs")
+		val docsDir = file(rootDir.path + "/docs")
 		docsDir.deleteRecursively()
 	}
 }

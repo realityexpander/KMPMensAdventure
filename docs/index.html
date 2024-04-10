@@ -70,7 +70,14 @@
            window.setTimeout(function() {
              const meta = document.createElement('meta');
              meta.name = "viewport";
-             meta.content = "width=" + (window.screen.width * (window.devicePixelRatio/2)) + ", initial-scale=1";
+
+             // Check orientation
+                //meta.content = "width=" + (window.screen.width * (window.devicePixelRatio/2)) + ", initial-scale=1";
+                //meta.content = "width=1102, initial-scale=1";
+                //alert("width=" + (window.screen.height * (window.devicePixelRatio/2)) );
+                //alert("height=" + innerWidth + " " + innerHeight + " " + window.screen.height + " " + window.devicePixelRatio + " " + (window.screen.height * (window.devicePixelRatio/2) ));
+                //alert("calc=" + (innerWidth * (window.devicePixelRatio) / 2));
+                meta.content = "width=" + (innerWidth * (window.devicePixelRatio) / 2) +", initial-scale=1";
              document.head.appendChild(meta);
            }, 0);
         }
@@ -79,7 +86,6 @@
             isLoaded = true;
             onLoad();
             document.getElementById("loading-indicator").style.display = "none";
-            console.log("onLoadFinished");
         }
 
 

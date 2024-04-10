@@ -2,6 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8"> <!-- note: no meta viewport tag here -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!--    <meta name="viewport" content="width=800, initial-scale=1.0">-->
     <title>Compose App</title>
 
     <script type="application/javascript" src="skiko.js"></script>
@@ -60,106 +62,162 @@
         let isLoaded = false;
 
         // Sets the viewport to the correct size for mobile devices
-        window.addEventListener("load", function(){ onLoad() } );
+        //window.addEventListener("load", function(){ onLoad() } );
         function onLoad() {
-           if(!isLoaded) {
-              return;
-           }
+           //if(!isLoaded) {
+           //   return;
+           //}
 
            window.setTimeout(function() {
-              const meta = document.createElement('meta');
-              meta.name = "viewport";
-              meta.content = "width=" + (window.screen.width * window.devicePixelRatio) / 2 + ", initial-scale=1";
+              //return;
 
-              document.head.appendChild(meta);
+              //if(false){
+              if(true) {
+                 const meta = document.createElement('meta');
+                 meta.name = "viewport";
+                 //meta.content = "width=" + (window.screen.width * window.devicePixelRatio) + ", initial-scale=1";
+                 //meta.content = "width=" + (window.screen.width / window.devicePixelRatio) + ", initial-scale=1";
+                 //meta.content = "width=" + (window.screen.width * (1 + (1/window.devicePixelRatio))) + ", initial-scale=1";
+                 //meta.content = "width=device-width, initial-scale=1";
+
+                 meta.content = "width=" + (window.screen.width * (window.devicePixelRatio/2)) + ", initial-scale=1";
+                 document.head.appendChild(meta);
+
+                 console.log("window.screen.width/height: " + window.screen.width / window.screen.height);
+              }
+
+              // Set the canvas size to the correct size for mobile devices
+              const canvas = document.getElementById("ComposeTarget");
+              //canvas.width = window.screen.width  * 2;
+              //canvas.height = window.screen.height * 2; // * window.devicePixelRatio;
+              //canvas.style = `width: ${window.screen.width * window.devicePixelRatio}px;` +
+              //               `height: ${window.screen.height * window.devicePixelRatio}px;`;
+
+              //if(window.devicePixelRatio > 2) {
+              //    //canvas.width = window.screen.width * window.devicePixelRatio;
+              //    //canvas.height = window.screen.height  * window.devicePixelRatio;
+              //    //canvas.style.width = canvas.width/2 +"px";
+              //    //canvas.style.height = canvas.height/2 +"px";
+              //    canvas.style.width = canvas.width/2 +"px";
+              //    canvas.style.height = canvas.height/2 +"px";
+              //} else {
+              //   canvas.style.width = canvas.width +"px";
+              //   canvas.style.height = canvas.height +"px";
+              //}
            }, 0);
         }
+
+        var doit;
+        //window.addEventListener("resize", function(){
+        //   clearTimeout(doit);
+        //   doit = window.setTimeout(function() {
+        //      //onLoad()
+        //
+        //      // Set the canvas size to the correct size for mobile devices
+        //      const canvas = document.getElementById("ComposeTarget");
+        //      //canvas.width = window.screen.width * window.devicePixelRatio * 2;
+        //      //canvas.height = window.screen.height * window.devicePixelRatio * 2;
+        //      //canvas.style = `width: ${window.screen.width * window.devicePixelRatio}px;` +
+        //      //               `height: ${window.screen.height * window.devicePixelRatio}px;`;
+        //
+        //      if(window.devicePixelRatio > 2) {
+        //          canvas.style.width = canvas.width/2 +"px";
+        //          canvas.style.height = canvas.height/2 +"px";
+        //      } else {
+        //         canvas.style.width = canvas.width +"px";
+        //         canvas.style.height = canvas.height +"px";
+        //      }
+        //
+        //   }, 100);
+        //} );
 
         function onLoadFinished() {
             isLoaded = true;
             onLoad();
             document.getElementById("loading-indicator").style.display = "none";
+            console.log("onLoadFinished");
         }
 
 
-        // Setup YouTube API
-        var tag = document.createElement('script');
-        tag.id = 'iframe-demo';
-        tag.src = 'https://www.youtube.com/iframe_api';
-        var firstScriptTag = document.getElementsByTagName('script')[0];
-        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-
-        var player;
-        function onYouTubeIframeAPIReady() {
-          player = new YT.Player('player', {
-              width: '320',
-              height: '240',
-              videoId: 'mIyabSTJ-no',
-              playerVars: {
-                'playsinline': 1,
-                'controls': 0,
-                'enablejsapi': 1,
-              },
-              events: {
-                'onReady': onPlayerReady,
-                'onStateChange': onPlayerStateChange,
-                'onError': onPlayerError
-              }
-          });
-        }
-        function onPlayerReady(event) {
-          document.getElementById('player').style.borderColor = '#FF6D00';
-          //document.getElementById('player').style.visibility = "visible";
-        }
-
-        function changeBorderColor(playerStatus) {
-          var color;
-          if (playerStatus == -1) {
-            color = "#37474F"; // unstarted = gray
-          } else if (playerStatus == 0) {
-            color = "#FFFF00"; // ended = yellow
-          } else if (playerStatus == 1) {
-            color = "#33691E"; // playing = green
-          } else if (playerStatus == 2) {
-            color = "#DD2C00"; // paused = red
-          } else if (playerStatus == 3) {
-            color = "#AA00FF"; // buffering = purple
-          } else if (playerStatus == 5) {
-            color = "#FF6DOO"; // video cued = orange
-          }
-          if (color) {
-            document.getElementById('player').style.borderColor = color;
-          }
-        }
-
-        function onPlayerStateChange(event) {
-          changeBorderColor(event.data);
-        }
-
-        function onPlayerError(event) {
-          changeBorderColor(-1);
-        }
-
-        function setVideoCoordinates(x, y, width, height) {
-            let factor = window.devicePixelRatio;
-            document.getElementById("player").style.visibility = "visible";
-            document.getElementById("player").style.top = y/factor + "px";
-            document.getElementById("player").style.left = x/factor + "px";
-            document.getElementById("player").style.width = width/factor + "px";
-            document.getElementById("player").style.height = height/factor + "px";
-        }
-
-        function setVideoUrl(url) {
-            player.loadVideoById(url);
-        }
-
-        function setVideoVisible(visible) {
-            if (visible) {
-                document.getElementById("player").style.visibility = "visible";
-            } else {
-                document.getElementById("player").style.visibility = "hidden";
-            }
-        }
+        //// Setup YouTube API
+        //var tag = document.createElement('script');
+        //tag.id = 'iframe-demo';
+        //tag.src = 'https://www.youtube.com/iframe_api';
+        //var firstScriptTag = document.getElementsByTagName('script')[0];
+        //firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+        //
+        //// Setup YouTube player node
+        //var player;
+        //function onYouTubeIframeAPIReady() {
+        //  player = new YT.Player('player', {
+        //      width: '320',
+        //      height: '240',
+        //      videoId: 'mIyabSTJ-no',
+        //      playerVars: {
+        //        'playsinline': 1,
+        //        'controls': 0,
+        //        'enablejsapi': 1,
+        //      },
+        //      events: {
+        //        'onReady': onPlayerReady,
+        //        'onStateChange': onPlayerStateChange,
+        //        'onError': onPlayerError
+        //      }
+        //  });
+        //}
+        //function onPlayerReady(event) {
+        //  document.getElementById('player').style.borderColor = '#FF6D00';
+        //  document.getElementById('player').style.visibility = "visible";
+        //}
+        //
+        //function changeBorderColor(playerStatus) {
+        //  var color;
+        //  if (playerStatus == -1) {
+        //    color = "#37474F"; // unstarted = gray
+        //  } else if (playerStatus == 0) {
+        //    color = "#FFFF00"; // ended = yellow
+        //  } else if (playerStatus == 1) {
+        //    color = "#33691E"; // playing = green
+        //  } else if (playerStatus == 2) {
+        //    color = "#DD2C00"; // paused = red
+        //  } else if (playerStatus == 3) {
+        //    color = "#AA00FF"; // buffering = purple
+        //  } else if (playerStatus == 5) {
+        //    color = "#FF6DOO"; // video cued = orange
+        //  }
+        //  if (color) {
+        //    document.getElementById('player').style.borderColor = color;
+        //  }
+        //}
+        //
+        //function onPlayerStateChange(event) {
+        //  changeBorderColor(event.data);
+        //}
+        //
+        //function onPlayerError(event) {
+        //  changeBorderColor(-1);
+        //}
+        //
+        //function setVideoCoordinates(x, y, width, height) {
+        //    let factor = window.devicePixelRatio;
+        //    document.getElementById("player").style.visibility = "visible";
+        //    document.getElementById("player").style.top = y/factor + "px";
+        //    document.getElementById("player").style.left = x/factor + "px";
+        //    document.getElementById("player").style.width = width/factor + "px";
+        //    document.getElementById("player").style.height = height/factor + "px";
+        //}
+        //
+        //function setVideoUrl(url) {
+        //    player.loadVideoById(url);
+        //}
+        //
+        //function setVideoVisible(visible) {
+        //    if (visible) {
+        //        //document.getElementById("player").style.visibility = "visible";
+        //    } else {
+        //        //document.getElementById("player").style.visibility = "hidden";
+        //    }
+        //}
 
         function getGpsLocation(callback) {
             if (navigator.geolocation) {
@@ -183,8 +241,7 @@
     <div id="loading-indicator">
         <div class="spinner"></div>
     </div>
-
+<!--    <div id="player"></div>-->
     <canvas id="ComposeTarget"></canvas>
-    <div id="player"></div>
 </body>
 </html>

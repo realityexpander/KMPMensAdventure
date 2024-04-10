@@ -93,6 +93,8 @@ fun App(
 			//setVideoVisible(drawerState.currentValue == DrawerValue.Closed)
 		}
 
+
+
 		ModalNavigationDrawer(
 			modifier = Modifier.background(MaterialTheme.colorScheme.background),
 			drawerContent = {

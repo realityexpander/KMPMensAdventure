@@ -59,32 +59,47 @@
 
     <script>
         let isLoaded = false;
+        let isFirstRender = true;
 
         // Sets the viewport to the correct size for mobile devices
-        //window.addEventListener("load", function(){ onLoad() } );
+        window.addEventListener("load", function(){ onLoad() } );
         function onLoad() {
-           //if(!isLoaded) {
-           //   return;
-           //}
-
            window.setTimeout(function() {
+             // Replace the default viewport for mobile with one that uses the devicePixelRatio
+             let oldViewport = document.querySelector('meta[name="viewport"]');
+             if(oldViewport) {
+               oldViewport.remove();
+             }
+
              const meta = document.createElement('meta');
              meta.name = "viewport";
-
-             // Check orientation
-                //meta.content = "width=" + (window.screen.width * (window.devicePixelRatio/2)) + ", initial-scale=1";
-                //meta.content = "width=1102, initial-scale=1";
-                //alert("width=" + (window.screen.height * (window.devicePixelRatio/2)) );
-                //alert("height=" + innerWidth + " " + innerHeight + " " + window.screen.height + " " + window.devicePixelRatio + " " + (window.screen.height * (window.devicePixelRatio/2) ));
-                //alert("calc=" + (innerWidth * (window.devicePixelRatio) / 2));
-                meta.content = "width=" + (innerWidth * (window.devicePixelRatio) / 2) +", initial-scale=1";
+             meta.content = "width=" + (innerWidth * (window.devicePixelRatio) / 2) + ", initial-scale=1";
              document.head.appendChild(meta);
-           }, 0);
+           }, 5);
         }
+
+        screen.orientation.addEventListener("change", (event) => {
+          const type = event.target.type;
+          const angle = event.target.angle;
+
+          let meta = document.querySelector('meta[name="viewport"]')
+          if (screen.orientation.type.includes("landscape")) {
+             meta.content = "width=device-width, initial-scale=1";
+             setTimeout(() => {
+                let meta = document.querySelector('meta[name="viewport"]')
+                meta.content = "width=" + ((screen.height * devicePixelRatio) /2) + ", initial-scale=1.0";
+            }, 500);
+          } else {
+             meta.content = "width=device-width, initial-scale=1";
+             setTimeout(() => {
+                let meta = document.querySelector('meta[name="viewport"]')
+                meta.content = "width=" + ((screen.width * devicePixelRatio) /2) + ", initial-scale=1.0";
+             }, 500);
+          }
+        });
 
         function onLoadFinished() {
             isLoaded = true;
-            onLoad();
             document.getElementById("loading-indicator").style.display = "none";
         }
 

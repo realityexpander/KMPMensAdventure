@@ -1,8 +1,8 @@
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -176,7 +176,7 @@ private fun XYGraphScope<Float, Float>.annotations(thumbnail: Boolean) {
 			) {
 				Text(
 					category,
-					style = androidx.compose.material.MaterialTheme.typography.body1,
+					style = androidx.compose.material3.MaterialTheme.typography.bodySmall,
 					fontWeight = androidx.compose.ui.text.font.FontWeight.Bold,
 					color = Color.DarkGray,
 					modifier = Modifier.padding(horizontal = KoalaPlotTheme.sizes.gap)
@@ -225,8 +225,8 @@ fun ChartTitle(title: String) {
 	Column {
 		Text(
 			title,
-			color = MaterialTheme.colors.onBackground,
-			style = MaterialTheme.typography.body1,
+			color = MaterialTheme.colorScheme.onBackground,
+			style = MaterialTheme.typography.bodySmall,
 			modifier = Modifier.align(Alignment.CenterHorizontally)
 		)
 	}
@@ -236,8 +236,8 @@ fun ChartTitle(title: String) {
 fun AxisTitle(title: String, modifier: Modifier = Modifier) {
 	Text(
 		title,
-		color = MaterialTheme.colors.onBackground,
-		style = MaterialTheme.typography.body2,
+		color = MaterialTheme.colorScheme.onBackground,
+		style = MaterialTheme.typography.bodySmall,
 		modifier = modifier
 	)
 }
@@ -247,8 +247,8 @@ fun AxisLabel(label: String, modifier: Modifier = Modifier) {
 	Text(
 		label,
 //		color = MaterialTheme.colors.onBackground,
-		color = MaterialTheme.colors.error,
-		style = MaterialTheme.typography.body2,
+		color = MaterialTheme.colorScheme.error,
+		style = MaterialTheme.typography.bodySmall,
 		modifier = modifier,
 		overflow = TextOverflow.Ellipsis,
 		maxLines = 1

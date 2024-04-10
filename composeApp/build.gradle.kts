@@ -33,12 +33,13 @@ kotlin {
 		commonMain.dependencies {
 			implementation(compose.runtime)
 			implementation(compose.foundation)
-			implementation(compose.material)
+			implementation(compose.material3)
 			implementation(compose.ui)
 			implementation(compose.components.resources)
 			implementation(compose.components.uiToolingPreview)
 
 			implementation("io.github.koalaplot:koalaplot-core:0.5.2")
+			implementation("dev.chrisbanes.material3:material3-window-size-class-multiplatform:0.5.0")
 		}
 		desktopMain.dependencies {
 			implementation(compose.desktop.currentOs)

@@ -139,85 +139,85 @@
         }
 
 
-        // Setup YouTube API
-        var tag = document.createElement('script');
-        tag.id = 'iframe-demo';
-        tag.src = 'https://www.youtube.com/iframe_api';
-        var firstScriptTag = document.getElementsByTagName('script')[0];
-        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-
-        // Setup YouTube player node
-        var player;
-        function onYouTubeIframeAPIReady() {
-          player = new YT.Player('player', {
-              width: '320',
-              height: '240',
-              videoId: 'mIyabSTJ-no',
-              playerVars: {
-                'playsinline': 1,
-                'controls': 0,
-                'enablejsapi': 1,
-              },
-              events: {
-                'onReady': onPlayerReady,
-                'onStateChange': onPlayerStateChange,
-                'onError': onPlayerError
-              }
-          });
-        }
-        function onPlayerReady(event) {
-          document.getElementById('player').style.borderColor = '#FF6D00';
-          document.getElementById('player').style.visibility = "visible";
-        }
-
-        function changeBorderColor(playerStatus) {
-          var color;
-          if (playerStatus == -1) {
-            color = "#37474F"; // unstarted = gray
-          } else if (playerStatus == 0) {
-            color = "#FFFF00"; // ended = yellow
-          } else if (playerStatus == 1) {
-            color = "#33691E"; // playing = green
-          } else if (playerStatus == 2) {
-            color = "#DD2C00"; // paused = red
-          } else if (playerStatus == 3) {
-            color = "#AA00FF"; // buffering = purple
-          } else if (playerStatus == 5) {
-            color = "#FF6DOO"; // video cued = orange
-          }
-          if (color) {
-            document.getElementById('player').style.borderColor = color;
-          }
-        }
-
-        function onPlayerStateChange(event) {
-          changeBorderColor(event.data);
-        }
-
-        function onPlayerError(event) {
-          changeBorderColor(-1);
-        }
-
-        function setVideoCoordinates(x, y, width, height) {
-            let factor = window.devicePixelRatio;
-            document.getElementById("player").style.visibility = "visible";
-            document.getElementById("player").style.top = y/factor + "px";
-            document.getElementById("player").style.left = x/factor + "px";
-            document.getElementById("player").style.width = width/factor + "px";
-            document.getElementById("player").style.height = height/factor + "px";
-        }
-
-        function setVideoUrl(url) {
-            player.loadVideoById(url);
-        }
-
-        function setVideoVisible(visible) {
-            if (visible) {
-                //document.getElementById("player").style.visibility = "visible";
-            } else {
-                //document.getElementById("player").style.visibility = "hidden";
-            }
-        }
+        //// Setup YouTube API
+        //var tag = document.createElement('script');
+        //tag.id = 'iframe-demo';
+        //tag.src = 'https://www.youtube.com/iframe_api';
+        //var firstScriptTag = document.getElementsByTagName('script')[0];
+        //firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+        //
+        //// Setup YouTube player node
+        //var player;
+        //function onYouTubeIframeAPIReady() {
+        //  player = new YT.Player('player', {
+        //      width: '320',
+        //      height: '240',
+        //      videoId: 'mIyabSTJ-no',
+        //      playerVars: {
+        //        'playsinline': 1,
+        //        'controls': 0,
+        //        'enablejsapi': 1,
+        //      },
+        //      events: {
+        //        'onReady': onPlayerReady,
+        //        'onStateChange': onPlayerStateChange,
+        //        'onError': onPlayerError
+        //      }
+        //  });
+        //}
+        //function onPlayerReady(event) {
+        //  document.getElementById('player').style.borderColor = '#FF6D00';
+        //  document.getElementById('player').style.visibility = "visible";
+        //}
+        //
+        //function changeBorderColor(playerStatus) {
+        //  var color;
+        //  if (playerStatus == -1) {
+        //    color = "#37474F"; // unstarted = gray
+        //  } else if (playerStatus == 0) {
+        //    color = "#FFFF00"; // ended = yellow
+        //  } else if (playerStatus == 1) {
+        //    color = "#33691E"; // playing = green
+        //  } else if (playerStatus == 2) {
+        //    color = "#DD2C00"; // paused = red
+        //  } else if (playerStatus == 3) {
+        //    color = "#AA00FF"; // buffering = purple
+        //  } else if (playerStatus == 5) {
+        //    color = "#FF6DOO"; // video cued = orange
+        //  }
+        //  if (color) {
+        //    document.getElementById('player').style.borderColor = color;
+        //  }
+        //}
+        //
+        //function onPlayerStateChange(event) {
+        //  changeBorderColor(event.data);
+        //}
+        //
+        //function onPlayerError(event) {
+        //  changeBorderColor(-1);
+        //}
+        //
+        //function setVideoCoordinates(x, y, width, height) {
+        //    let factor = window.devicePixelRatio;
+        //    document.getElementById("player").style.visibility = "visible";
+        //    document.getElementById("player").style.top = y/factor + "px";
+        //    document.getElementById("player").style.left = x/factor + "px";
+        //    document.getElementById("player").style.width = width/factor + "px";
+        //    document.getElementById("player").style.height = height/factor + "px";
+        //}
+        //
+        //function setVideoUrl(url) {
+        //    player.loadVideoById(url);
+        //}
+        //
+        //function setVideoVisible(visible) {
+        //    if (visible) {
+        //        //document.getElementById("player").style.visibility = "visible";
+        //    } else {
+        //        //document.getElementById("player").style.visibility = "hidden";
+        //    }
+        //}
 
         function getGpsLocation(callback) {
             if (navigator.geolocation) {

@@ -90,7 +90,7 @@ fun App(
 
 		// Hide the video when the drawer is open
 		LaunchedEffect(drawerState.isOpen) {
-			setVideoVisible(drawerState.currentValue == DrawerValue.Closed)
+			//setVideoVisible(drawerState.currentValue == DrawerValue.Closed)
 		}
 
 		ModalNavigationDrawer(

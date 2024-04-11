@@ -78,11 +78,10 @@ tasks.register("copyWasmJsToDocs") {
 		wasmJsDir.copyRecursively(docsDir, overwrite = true)
 	}
 }
-// Make sure the wasmJsBrowserDistribution task runs before copyWasmJsToDocs
 tasks.getByName("wasmJsBrowserDistribution").finalizedBy("copyWasmJsToDocs")
 
 
-// Task to clean ./docs
+// Task to clean ./docs (docs is the dir that will be published to GitHub Pages)
 tasks.register("cleanDocs") {
 	group = "build"
 	doLast {

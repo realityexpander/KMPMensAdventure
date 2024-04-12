@@ -1,13 +1,34 @@
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.ExperimentalComposeUiApi
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.CanvasBasedWindow
+import com.hamama.kwhi.HtmlView
+import com.hamama.kwhi.LocalLayerContainer
+import kotlinx.browser.document
+import org.w3c.dom.ElementCreationOptions
+import org.w3c.dom.HTMLObjectElement
 
 @OptIn(ExperimentalComposeUiApi::class)
+//fun main() {
+//    CanvasBasedWindow(canvasElementId = "ComposeTarget") {
+//        App(
+//           onLoadFinished = ::onLoadFinished,
+//        )
+//    }
+//}
+
 fun main() {
-    CanvasBasedWindow(canvasElementId = "ComposeTarget") {
-        App(
-           onLoadFinished = ::onLoadFinished,
-        )
-    }
+   CanvasBasedWindow(canvasElementId = "ComposeTarget", title = "Kotlin Wasm Html Interop") {
+      CompositionLocalProvider(LocalLayerContainer provides document.body!!) {
+         App(
+            onLoadFinished = ::onLoadFinished,
+         )
+      }
+   }
 }
 
 external fun onLoadFinished()  // ok to use `external` bc it's only called from this file
@@ -29,6 +50,28 @@ actual external class GeolocationPosition {
    val latitude: Double?
    val longitude: Double?
    val error: String?
+}
+
+@Composable
+actual fun VideoView(
+   modifier: Modifier,
+) {
+   HtmlView(
+      modifier = Modifier.fillMaxWidth().height(300.dp),
+      factory = {
+         val video = document.createElement(
+            "video"
+         )
+         video.setAttribute(
+            "src",
+            "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4"
+         )
+         video.setAttribute("controls", "true")
+         video.setAttribute("controlsList", "nofullscreen")
+
+         video
+      }
+   )
 }
 
 // USING EXTERNAL

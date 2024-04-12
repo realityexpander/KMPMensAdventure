@@ -1,7 +1,7 @@
 ### To Build the web app:
 
 ```shell
-# Build the web app
+# Build the web app (copies files to /docs)
 ./gradlew :composeApp:wasmJsBrowserDistribution
 ```
 

@@ -1,5 +1,7 @@
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.*
@@ -152,10 +154,14 @@ fun App(
 									Text("Compact")
 									Text("Compact")
 									Text("Compact")
+
+									VideoView(modifier = Modifier.fillMaxWidth())
 							   }
 							}
 							else -> {
-								Column {
+								Column(
+									modifier = Modifier.verticalScroll(state = rememberScrollState())
+								) {
 									Row(
 										modifier = Modifier
 											.fillMaxWidth()
@@ -173,6 +179,8 @@ fun App(
 									Text("Medium")
 									Text("Medium")
 									Text("Medium")
+
+									VideoView(modifier = Modifier.fillMaxWidth())
 								}
 							}
 						}
@@ -374,6 +382,9 @@ expect fun setVideoVisible(visible: Boolean)
 
 expect class GeolocationPosition
 expect fun getGpsLocation(callback: (GeolocationPosition) -> Unit)
+
+@Composable
+expect fun VideoView(modifier: Modifier)
 
 //// USING EXTERNAL
 //external fun getGpsLocation(callback: (GeolocationPosition) -> Unit)

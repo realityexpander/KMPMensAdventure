@@ -7,6 +7,7 @@
 
     <script type="application/javascript" src="skiko.js"></script>
     <script type="application/javascript" src="composeApp.js"></script>
+    <link href="https://vjs.zencdn.net/8.6.1/video-js.css" rel="stylesheet" />
 
     <style>
         html, body {
@@ -203,8 +204,8 @@
                 callback( { error: "Geolocation is not supported by this browser." } );
             }
         }
-    </script>
 
+    </script>
 </head>
 <body>
     <div id="loading-indicator">
@@ -212,5 +213,6 @@
     </div>
 <!--    <div id="player"></div>-->
     <canvas id="ComposeTarget"></canvas>
+    <script src="https://vjs.zencdn.net/8.6.1/video.min.js"></script>
 </body>
 </html>

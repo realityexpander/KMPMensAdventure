@@ -1,5 +1,7 @@
 import androidx.compose.desktop.ui.tooling.preview.Preview
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
 import java.io.BufferedReader
@@ -51,4 +53,11 @@ actual class GeolocationPosition(
 	val error: String?
 ) {
 	constructor(error: String) : this(null, null, error)
+}
+
+@Composable
+actual fun VideoView(
+	modifier: Modifier,
+) {
+	Text("VideoView not available on desktop")
 }

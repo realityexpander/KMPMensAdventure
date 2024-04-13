@@ -25,6 +25,7 @@ import coil3.compose.LocalPlatformContext
 import coil3.decode.Decoder
 import coil3.Extras
 import coil3.annotation.ExperimentalCoilApi
+import coil3.compose.AsyncImagePainter
 import coil3.compose.rememberAsyncImagePainter
 import coil3.network.NetworkHeaders
 import coil3.network.httpHeaders
@@ -34,6 +35,8 @@ import kotlinproject.composeapp.generated.resources.Res
 import kotlinproject.composeapp.generated.resources.compose_multiplatform
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.painterResource
@@ -114,6 +117,8 @@ fun App(
 			focusRequester.requestFocus()
 		}
 
+		val loadingState = MutableStateFlow("Idle.")
+
 		ModalNavigationDrawer(
 			modifier = Modifier.background(MaterialTheme.colorScheme.background)
 				.focusRequester(focusRequester)
@@ -185,19 +190,15 @@ fun App(
 							}
 						}
 					)
-//					val file = "https://images.unsplash.com/photo-1550947176-68e708cb2dac?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjU4MjM5fQ"
-//					val file = "https://img.youtube.com/vi/fnRuC0rcA-I/hqdefault.jpg"
-//					val file = "https://wsrv.nl/?url=https://img.youtube.com/vi/fnRuC0rcA-I/hqdefault.jpg"
-//					val file = "https://raw.githubusercontent.com/realityexpander/FredsRoadtripStorytellerWebsite/main/website_splash.png"
-//					val file = "https://realityexpander.github.io/FredsRoadtripStorytellerWebsite/assets/img/screenshots/screen1.png"
-					val file = "https://raw.githubusercontent.com/realityexpander/FredsRoadtripStoryteller/main/raw_assets/screenshots/final_app/02L-MainScreen-50.png"
-
+//          		val file = "https://raw.githubusercontent.com/realityexpander/FredsRoadtripStoryteller/main/raw_assets/screenshots/final_app/02L-MainScreen-50.png"
+					val file = "https://wsrv.nl/?url=https://img.youtube.com/vi/aov6J8Bd3hs/hqdefault.jpg"
 					when(windowSizeClass.widthSizeClass) {
 						WindowWidthSizeClass.Compact -> {
 							   Column(
 								   modifier = Modifier
 									   .fillMaxSize()
 									   .padding(16.dp)
+										.verticalScroll(state = rememberScrollState())
 							   ) {
 								   Text("Compact")
 									Text("Compact")
@@ -212,46 +213,41 @@ fun App(
 
 //									ImageView(modifier = Modifier.fillMaxWidth(), imageUrl = file)
 
-//									val painter = asyncPainterResource(data = "https://img.youtube.com/vi/$id/hqdefault.jpg")
-									//val painter = asyncPainterResource(data = "https://img.youtube.com/vi/fnRuC0rcA-I/hqdefault.jpg")
-//									val painter = rememberAsyncImagePainter(file)
-//									Image(
-//										painter = painter,
-//										contentDescription = "image",
-//										modifier = Modifier.fillMaxWidth()
-//											.aspectRatio(4f / 3f)
-//											.background(Color.Gray)
-//									)
+									val painter = rememberAsyncImagePainter(file)
+									Image(
+										painter = painter,
+										contentDescription = "image",
+										modifier = Modifier.fillMaxWidth()
+											.aspectRatio(4f / 3f)
+											.background(Color.Gray)
+									)
 
 									AsyncImage(
-										ImageRequest.Builder(LocalPlatformContext.current)
-											.data(file)
-											.httpHeaders(
-												NetworkHeaders.Builder()
-//													.add("mode", "no-cors")
-//													.add("mode", "cors")
-//													.add("Cache-Control", "no-cache")
-//													.add("Access-Control-Allow-Origin", "*")
-//													.add("Access-Control-Allow-Origin", "https://realityexpander.github.io")
-//													.add("Access-Control-Allow-Origin", "https://fredsroadtripstoryteller.com")
-//													.add("mode", "cors")
-//											   	.add("Access-Control-Allow-Origin", "http://localhost:8080")
-//											   	.add("Access-Control-Allow-Origin", "localhost:8080")
-//											   	.add("Access-Control-Allow-Origin", "*")
-//											   	.add("Access-Control-Allow-Headers", "*")
-//											   	.add("Access-Control-Allow-Credentials", "true")
-//													.add("Content-Type", "*/*")
-													.build()
-											)
-											.build(),
+										file,
 										contentDescription = "image",
 										modifier = Modifier.fillMaxWidth()
 											.aspectRatio(4f / 3f)
 											.background(Color.Gray),
 										onState = { state ->
-											println("State: $state")
+											when(state) {
+												is AsyncImagePainter.State.Loading -> {
+													loadingState.update {
+														"$it\nLoading..."
+													}
+												}
+												is AsyncImagePainter.State.Success -> {
+													loadingState.update { "$it\nSuccess!" }
+												}
+												is AsyncImagePainter.State.Error -> {
+													loadingState.update { "$it\nError: ${state.result.throwable}" }
+												}
+												else -> {
+													loadingState.update { "$it\nIdle." }
+												}
+											}
 										}
 									)
+									Text(loadingState.collectAsState().value)
 
 									//VideoView(modifier = Modifier.fillMaxWidth())
 							   }
@@ -283,20 +279,7 @@ fun App(
 									AsyncImage(
 //										"https://github.com/realityexpander/FredsRoadtripStoryteller/blob/main/screenshots/run-configurations.png",
 										ImageRequest.Builder(LocalPlatformContext.current)
-											.data(file)
-											.httpHeaders(
-												NetworkHeaders.Builder()
-//													.add("mode", "no-cors")
-													.add("mode", "cors")
-//											   	.add("Access-Control-Allow-Origin", "http://localhost:8080")
-//											   	.add("Access-Control-Allow-Origin", "localhost:8080")
-//											   	.add("Access-Control-Allow-Origin", "*")
-//											   	.add("Access-Control-Allow-Headers", "*")
-//											   	.add("Access-Control-Allow-Credentials", "true")
-													.add("Content-Type", "*/*")
-												.build()
-											)
-											.build(),
+											.data(file),
 										contentDescription = "image",
 										modifier = Modifier.fillMaxWidth()
 											.aspectRatio(4f / 3f)

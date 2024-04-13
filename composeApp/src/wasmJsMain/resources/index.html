@@ -106,6 +106,9 @@
         function onLoadFinished() {
             isLoaded = true;
             document.getElementById("loading-indicator").style.display = "none";
+
+            // Set focus to the canvas to enable keyboard input
+            document.getElementById("ComposeTarget").focus();
         }
 
 

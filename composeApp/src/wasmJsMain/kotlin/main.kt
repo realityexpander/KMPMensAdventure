@@ -9,21 +9,14 @@ import androidx.compose.ui.window.CanvasBasedWindow
 import com.hamama.kwhi.HtmlView
 import com.hamama.kwhi.LocalLayerContainer
 import kotlinx.browser.document
-import org.w3c.dom.ElementCreationOptions
-import org.w3c.dom.HTMLObjectElement
 
 @OptIn(ExperimentalComposeUiApi::class)
-//fun main() {
-//    CanvasBasedWindow(canvasElementId = "ComposeTarget") {
-//        App(
-//           onLoadFinished = ::onLoadFinished,
-//        )
-//    }
-//}
-
 fun main() {
-   CanvasBasedWindow(canvasElementId = "ComposeTarget", title = "Kotlin Wasm Html Interop") {
-      CompositionLocalProvider(LocalLayerContainer provides document.body!!) {
+   CanvasBasedWindow(
+      canvasElementId = "ComposeTarget",
+      title = "Kotlin Wasm Html Interop",
+   ) {
+      CompositionLocalProvider(LocalLayerContainer provides document.body!!) { // For HtmlView
          App(
             onLoadFinished = ::onLoadFinished,
          )
@@ -57,7 +50,7 @@ actual fun VideoView(
    modifier: Modifier,
 ) {
    HtmlView(
-      modifier = Modifier.fillMaxWidth().height(300.dp),
+      modifier = modifier.fillMaxWidth().height(300.dp),
       factory = {
          val video = document.createElement(
             "video"
@@ -70,6 +63,24 @@ actual fun VideoView(
          video.setAttribute("controlsList", "nofullscreen")
 
          video
+      }
+   )
+}
+
+@Composable
+actual fun ImageView(
+   modifier: Modifier,
+   imageUrl: String
+) {
+   HtmlView(
+      modifier = Modifier.fillMaxWidth().height(300.dp),
+      factory = {
+         val img = document.createElement("img")
+         img.setAttribute(
+            "src",
+            imageUrl
+         )
+         img
       }
    )
 }

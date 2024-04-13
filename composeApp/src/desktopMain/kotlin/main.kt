@@ -11,7 +11,11 @@ import java.util.function.Consumer
 
 
 fun main() = application {
-	Window(onCloseRequest = ::exitApplication, title = "KotlinProject") {
+
+	Window(
+		onCloseRequest = ::exitApplication,
+		title = "KotlinProject",
+	) {
 		App()
 	}
 }
@@ -60,4 +64,12 @@ actual fun VideoView(
 	modifier: Modifier,
 ) {
 	Text("VideoView not available on desktop")
+}
+
+@Composable
+actual fun ImageView(
+	modifier: Modifier,
+	imageUrl: String
+) {
+	Text("ImageView not available on desktop")
 }

@@ -1,3 +1,4 @@
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
@@ -10,11 +11,24 @@ import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.focus.focusTarget
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.key.*
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil3.compose.AsyncImage
+import coil3.compose.LocalPlatformContext
+import coil3.decode.Decoder
+import coil3.Extras
+import coil3.annotation.ExperimentalCoilApi
+import coil3.compose.rememberAsyncImagePainter
+import coil3.network.NetworkHeaders
+import coil3.network.httpHeaders
+import coil3.request.ImageRequest
 import io.github.koalaplot.core.util.ExperimentalKoalaPlotApi
 import kotlinproject.composeapp.generated.resources.Res
 import kotlinproject.composeapp.generated.resources.compose_multiplatform
@@ -51,11 +65,11 @@ data class GameState(
 }
 
 @OptIn(ExperimentalResourceApi::class, ExperimentalKoalaPlotApi::class, ExperimentalMaterial3Api::class,
-	ExperimentalMaterial3WindowSizeClassApi::class
+	ExperimentalMaterial3WindowSizeClassApi::class, ExperimentalCoilApi::class
 )
 @Composable
 fun App(
-	onLoadFinished: () -> Unit = {}
+	onLoadFinished: () -> Unit = {},
 ) {
 
 	val windowSizeClass = calculateWindowSizeClass()
@@ -95,10 +109,45 @@ fun App(
 			//setVideoVisible(drawerState.currentValue == DrawerValue.Closed)
 		}
 
-
+		val focusRequester = remember { FocusRequester() }
+		LaunchedEffect(Unit) {
+			focusRequester.requestFocus()
+		}
 
 		ModalNavigationDrawer(
-			modifier = Modifier.background(MaterialTheme.colorScheme.background),
+			modifier = Modifier.background(MaterialTheme.colorScheme.background)
+				.focusRequester(focusRequester)
+				.focusTarget().onKeyEvent {
+					if (it.type == KeyEventType.KeyDown) {
+						when(it.key) {
+							Key.Tab -> {
+								scope.launch {
+									if (drawerState.isOpen) {
+										drawerState.close()
+									} else {
+										drawerState.open()
+									}
+								}
+								true
+							}
+							Key.Escape -> {
+								scope.launch {
+									if (modalBottomSheetState.isVisible) {
+										modalBottomSheetState.hide()
+									}
+									if (drawerState.isOpen) {
+										drawerState.close()
+									}
+								}
+								true
+							}
+							else -> false
+						}
+					} else {
+						false
+					}
+				}
+			,
 			drawerContent = {
 				ModalDrawerSheet {
 					Text("Drawer title", modifier = Modifier.padding(16.dp))
@@ -136,6 +185,9 @@ fun App(
 							}
 						}
 					)
+//					val file = "https://images.unsplash.com/photo-1550947176-68e708cb2dac?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjU4MjM5fQ"
+//					val file = "https://img.youtube.com/vi/fnRuC0rcA-I/hqdefault.jpg"
+					val file = "https://wsrv.nl/?url=https://img.youtube.com/vi/fnRuC0rcA-I/hqdefault.jpg"
 
 					when(windowSizeClass.widthSizeClass) {
 						WindowWidthSizeClass.Compact -> {
@@ -155,7 +207,49 @@ fun App(
 									Text("Compact")
 									Text("Compact")
 
-									VideoView(modifier = Modifier.fillMaxWidth())
+//									ImageView(modifier = Modifier.fillMaxWidth(), imageUrl = file)
+
+//									val painter = asyncPainterResource(data = "https://img.youtube.com/vi/$id/hqdefault.jpg")
+									//val painter = asyncPainterResource(data = "https://img.youtube.com/vi/fnRuC0rcA-I/hqdefault.jpg")
+//									val painter = rememberAsyncImagePainter(file)
+//									Image(
+//										painter = painter,
+//										contentDescription = "image",
+//										modifier = Modifier.fillMaxWidth()
+//											.aspectRatio(4f / 3f)
+//											.background(Color.Gray)
+//									)
+
+									AsyncImage(
+										ImageRequest.Builder(LocalPlatformContext.current)
+											.data(file)
+											.httpHeaders(
+												NetworkHeaders.Builder()
+//													.add("mode", "no-cors")
+//													.add("mode", "cors")
+//													.add("Cache-Control", "no-cache")
+//													.add("Access-Control-Allow-Origin", "*")
+													.add("Access-Control-Allow-Origin", "localhost:8080")
+//													.add("mode", "cors")
+//											   	.add("Access-Control-Allow-Origin", "http://localhost:8080")
+//											   	.add("Access-Control-Allow-Origin", "localhost:8080")
+//											   	.add("Access-Control-Allow-Origin", "*")
+//											   	.add("Access-Control-Allow-Headers", "*")
+//											   	.add("Access-Control-Allow-Credentials", "true")
+//													.add("Content-Type", "*/*")
+													.build()
+											)
+											.build(),
+										contentDescription = "image",
+										modifier = Modifier.fillMaxWidth()
+											.aspectRatio(4f / 3f)
+											.background(Color.Gray),
+										onState = { state ->
+											println("State: $state")
+										}
+									)
+
+									//VideoView(modifier = Modifier.fillMaxWidth())
 							   }
 							}
 							else -> {
@@ -180,7 +274,32 @@ fun App(
 									Text("Medium")
 									Text("Medium")
 
-									VideoView(modifier = Modifier.fillMaxWidth())
+									//VideoView(modifier = Modifier.fillMaxWidth())
+
+									AsyncImage(
+//										"https://github.com/realityexpander/FredsRoadtripStoryteller/blob/main/screenshots/run-configurations.png",
+										ImageRequest.Builder(LocalPlatformContext.current)
+											.data(file)
+											.httpHeaders(
+												NetworkHeaders.Builder()
+//													.add("mode", "no-cors")
+													.add("mode", "cors")
+//											   	.add("Access-Control-Allow-Origin", "http://localhost:8080")
+//											   	.add("Access-Control-Allow-Origin", "localhost:8080")
+//											   	.add("Access-Control-Allow-Origin", "*")
+//											   	.add("Access-Control-Allow-Headers", "*")
+//											   	.add("Access-Control-Allow-Credentials", "true")
+													.add("Content-Type", "*/*")
+												.build()
+											)
+											.build(),
+										contentDescription = "image",
+										modifier = Modifier.fillMaxWidth()
+											.aspectRatio(4f / 3f)
+											.background(Color.Gray)
+									)
+
+
 								}
 							}
 						}
@@ -385,6 +504,9 @@ expect fun getGpsLocation(callback: (GeolocationPosition) -> Unit)
 
 @Composable
 expect fun VideoView(modifier: Modifier)
+
+@Composable
+expect fun ImageView(modifier: Modifier, imageUrl: String)
 
 //// USING EXTERNAL
 //external fun getGpsLocation(callback: (GeolocationPosition) -> Unit)

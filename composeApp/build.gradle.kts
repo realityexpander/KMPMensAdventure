@@ -25,6 +25,9 @@ kotlin {
 		binaries.executable()
 	}
 
+	js() {
+		browser()
+	}
 	jvm("desktop")
 
 	sourceSets {
@@ -38,11 +41,22 @@ kotlin {
 			implementation(compose.components.resources)
 			implementation(compose.components.uiToolingPreview)
 
+			implementation(libs.ktor.core)
+			implementation(libs.ktor.contentNegotiation)
+			implementation(libs.ktor.serialization)
+
 			implementation("io.github.koalaplot:koalaplot-core:0.5.2")
 			implementation("dev.chrisbanes.material3:material3-window-size-class-multiplatform:0.5.0")
+			//implementation("media.kamel:kamel-image:0.9.4")
+			implementation("io.coil-kt.coil3:coil-compose:3.0.0-alpha06")
+			implementation("io.coil-kt.coil3:coil-network-ktor:3.0.0-alpha06")
 		}
 		desktopMain.dependencies {
 			implementation(compose.desktop.currentOs)
+			implementation(libs.ktor.client.java)
+		}
+		jsMain.dependencies {
+			implementation(libs.ktor.client.js)
 		}
 	}
 }

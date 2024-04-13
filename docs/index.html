@@ -7,6 +7,7 @@
 
     <script type="application/javascript" src="skiko.js"></script>
     <script type="application/javascript" src="composeApp.js"></script>
+    <link href="https://vjs.zencdn.net/8.6.1/video-js.css" rel="stylesheet" />
 
     <style>
         html, body {
@@ -105,6 +106,9 @@
         function onLoadFinished() {
             isLoaded = true;
             document.getElementById("loading-indicator").style.display = "none";
+
+            // Set focus to the canvas to enable keyboard input
+            document.getElementById("ComposeTarget").focus();
         }
 
 
@@ -203,8 +207,8 @@
                 callback( { error: "Geolocation is not supported by this browser." } );
             }
         }
-    </script>
 
+    </script>
 </head>
 <body>
     <div id="loading-indicator">
@@ -212,5 +216,6 @@
     </div>
 <!--    <div id="player"></div>-->
     <canvas id="ComposeTarget"></canvas>
+    <script src="https://vjs.zencdn.net/8.6.1/video.min.js"></script>
 </body>
 </html>

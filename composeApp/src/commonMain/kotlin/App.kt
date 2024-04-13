@@ -187,7 +187,9 @@ fun App(
 					)
 //					val file = "https://images.unsplash.com/photo-1550947176-68e708cb2dac?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjU4MjM5fQ"
 //					val file = "https://img.youtube.com/vi/fnRuC0rcA-I/hqdefault.jpg"
-					val file = "https://wsrv.nl/?url=https://img.youtube.com/vi/fnRuC0rcA-I/hqdefault.jpg"
+//					val file = "https://wsrv.nl/?url=https://img.youtube.com/vi/fnRuC0rcA-I/hqdefault.jpg"
+//					val file = "https://raw.githubusercontent.com/realityexpander/FredsRoadtripStorytellerWebsite/main/website_splash.png"
+					val file = "https://realityexpander.github.io/FredsRoadtripStorytellerWebsite/assets/img/screenshots/screen1.png"
 
 					when(windowSizeClass.widthSizeClass) {
 						WindowWidthSizeClass.Compact -> {

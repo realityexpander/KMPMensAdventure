@@ -190,13 +190,14 @@ fun App(
 //					val file = "https://wsrv.nl/?url=https://img.youtube.com/vi/aov6J8Bd3hs/hqdefault.jpg"
 					when(windowSizeClass.widthSizeClass) {
 						WindowWidthSizeClass.Compact -> {
-							   Column(
-								   modifier = Modifier
-									   .fillMaxSize()
-									   .padding(16.dp)
-										.verticalScroll(state = rememberScrollState())
-							   ) {
-								   Text("Compact")
+							Box {
+								Column(
+									modifier = Modifier
+										.fillMaxSize()
+										.padding(16.dp)
+										.verticalScroll(state = stateVertical)
+								) {
+									Text("Compact")
 									Text("Compact")
 									Text("Compact")
 									Text("Compact")
@@ -225,18 +226,21 @@ fun App(
 											.aspectRatio(4f / 3f)
 											.background(Color.Gray),
 										onState = { state ->
-											when(state) {
+											when (state) {
 												is AsyncImagePainter.State.Loading -> {
 													loadingState.update {
 														"$it\nLoading..."
 													}
 												}
+
 												is AsyncImagePainter.State.Success -> {
 													loadingState.update { "$it\nSuccess!" }
 												}
+
 												is AsyncImagePainter.State.Error -> {
 													loadingState.update { "$it\nError: ${state.result.throwable}" }
 												}
+
 												else -> {
 													loadingState.update { "$it\nIdle." }
 												}
@@ -246,14 +250,16 @@ fun App(
 									Text(loadingState.collectAsState().value)
 
 									//VideoView(modifier = Modifier.fillMaxWidth())
+								}
 
-//									VerticalScrollbar(
-//										modifier = Modifier.align(Alignment.End)
-//											.fillMaxHeight(),
-//										adapter = rememberScrollbarAdapter(stateVertical)
-//									)
-							   }
+								VerticalScrollbar(
+									modifier = Modifier
+										.align(Alignment.CenterEnd)
+										.fillMaxHeight(),
+									adapter = rememberScrollbarAdapter(stateVertical)
+								)
 							}
+						}
 							else -> {
 								Column(
 									modifier = Modifier.verticalScroll(state = rememberScrollState())
@@ -281,7 +287,9 @@ fun App(
 									AsyncImage(
 //										"https://github.com/realityexpander/FredsRoadtripStoryteller/blob/main/screenshots/run-configurations.png",
 										ImageRequest.Builder(LocalPlatformContext.current)
-											.data(file),
+											.data(file)
+											.build()
+										,
 										contentDescription = "image",
 										modifier = Modifier.fillMaxWidth()
 											.aspectRatio(4f / 3f)

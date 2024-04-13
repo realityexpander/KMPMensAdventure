@@ -185,11 +185,12 @@ fun App(
 							}
 						}
 					)
-					val file = "https://images.unsplash.com/photo-1550947176-68e708cb2dac?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjU4MjM5fQ"
+//					val file = "https://images.unsplash.com/photo-1550947176-68e708cb2dac?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjU4MjM5fQ"
 //					val file = "https://img.youtube.com/vi/fnRuC0rcA-I/hqdefault.jpg"
 //					val file = "https://wsrv.nl/?url=https://img.youtube.com/vi/fnRuC0rcA-I/hqdefault.jpg"
 //					val file = "https://raw.githubusercontent.com/realityexpander/FredsRoadtripStorytellerWebsite/main/website_splash.png"
 //					val file = "https://realityexpander.github.io/FredsRoadtripStorytellerWebsite/assets/img/screenshots/screen1.png"
+					val file = "https://github.com/realityexpander/FredsRoadtripStoryteller/blob/main/raw_assets/screenshots/final_app/02L-MainScreen-50.png?raw=true"
 
 					when(windowSizeClass.widthSizeClass) {
 						WindowWidthSizeClass.Compact -> {
@@ -232,7 +233,7 @@ fun App(
 //													.add("Cache-Control", "no-cache")
 //													.add("Access-Control-Allow-Origin", "*")
 //													.add("Access-Control-Allow-Origin", "https://realityexpander.github.io")
-													.add("Access-Control-Allow-Origin", "https://fredsroadtripstoryteller.com")
+//													.add("Access-Control-Allow-Origin", "https://fredsroadtripstoryteller.com")
 //													.add("mode", "cors")
 //											   	.add("Access-Control-Allow-Origin", "http://localhost:8080")
 //											   	.add("Access-Control-Allow-Origin", "localhost:8080")

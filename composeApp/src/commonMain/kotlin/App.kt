@@ -1,8 +1,5 @@
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.*
@@ -10,6 +7,7 @@ import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSiz
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
@@ -22,20 +20,15 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil3.compose.AsyncImage
 import coil3.compose.LocalPlatformContext
-import coil3.decode.Decoder
-import coil3.Extras
 import coil3.annotation.ExperimentalCoilApi
 import coil3.compose.AsyncImagePainter
 import coil3.compose.rememberAsyncImagePainter
-import coil3.network.NetworkHeaders
-import coil3.network.httpHeaders
 import coil3.request.ImageRequest
 import io.github.koalaplot.core.util.ExperimentalKoalaPlotApi
 import kotlinproject.composeapp.generated.resources.Res
 import kotlinproject.composeapp.generated.resources.compose_multiplatform
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.ExperimentalResourceApi
@@ -167,7 +160,10 @@ fun App(
 			gesturesEnabled = true,
 			drawerState = drawerState,
 		) {
+			val stateVertical = rememberScrollState(0)
+
 			Scaffold {
+
 				Column {
 					TopAppBar(
 						title = { Text("ComposeApp") },
@@ -190,8 +186,8 @@ fun App(
 							}
 						}
 					)
-//          		val file = "https://raw.githubusercontent.com/realityexpander/FredsRoadtripStoryteller/main/raw_assets/screenshots/final_app/02L-MainScreen-50.png"
-					val file = "https://wsrv.nl/?url=https://img.youtube.com/vi/aov6J8Bd3hs/hqdefault.jpg"
+          		val file = "https://raw.githubusercontent.com/realityexpander/FredsRoadtripStoryteller/main/raw_assets/screenshots/final_app/02L-MainScreen-50.png"
+//					val file = "https://wsrv.nl/?url=https://img.youtube.com/vi/aov6J8Bd3hs/hqdefault.jpg"
 					when(windowSizeClass.widthSizeClass) {
 						WindowWidthSizeClass.Compact -> {
 							   Column(
@@ -211,7 +207,7 @@ fun App(
 									Text("Compact")
 									Text("Compact")
 
-//									ImageView(modifier = Modifier.fillMaxWidth(), imageUrl = file)
+									//HtmlImageView(modifier = Modifier.fillMaxWidth(), imageUrl = file)
 
 									val painter = rememberAsyncImagePainter(file)
 									Image(
@@ -250,6 +246,12 @@ fun App(
 									Text(loadingState.collectAsState().value)
 
 									//VideoView(modifier = Modifier.fillMaxWidth())
+
+//									VerticalScrollbar(
+//										modifier = Modifier.align(Alignment.End)
+//											.fillMaxHeight(),
+//										adapter = rememberScrollbarAdapter(stateVertical)
+//									)
 							   }
 							}
 							else -> {
@@ -490,10 +492,10 @@ expect class GeolocationPosition
 expect fun getGpsLocation(callback: (GeolocationPosition) -> Unit)
 
 @Composable
-expect fun VideoView(modifier: Modifier)
+expect fun HtmlVideoView(modifier: Modifier)
 
 @Composable
-expect fun ImageView(modifier: Modifier, imageUrl: String)
+expect fun HtmlImageView(modifier: Modifier, imageUrl: String)
 
 //// USING EXTERNAL
 //external fun getGpsLocation(callback: (GeolocationPosition) -> Unit)

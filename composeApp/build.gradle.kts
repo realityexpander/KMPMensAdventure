@@ -24,14 +24,9 @@ kotlin {
 		}
 		binaries.executable()
 	}
-
-	js() {
-		browser()
-	}
 	jvm("desktop")
 
 	sourceSets {
-		val desktopMain by getting
 
 		commonMain.dependencies {
 			implementation(compose.runtime)
@@ -47,16 +42,20 @@ kotlin {
 
 			implementation("io.github.koalaplot:koalaplot-core:0.5.2")
 			implementation("dev.chrisbanes.material3:material3-window-size-class-multiplatform:0.5.0")
-			//implementation("media.kamel:kamel-image:0.9.4")
+			//implementation("media.kamel:kamel-image:0.9.4") // doesnt seem to work with JS yet...
 			implementation("io.coil-kt.coil3:coil-compose:3.0.0-alpha06")
 			implementation("io.coil-kt.coil3:coil-network-ktor:3.0.0-alpha06")
 		}
-		desktopMain.dependencies {
-			implementation(compose.desktop.currentOs)
-			implementation(libs.ktor.client.java)
+		val wasmJsMain by getting {
+			dependencies {
+				implementation(libs.ktor.client.js)
+			}
 		}
-		jsMain.dependencies {
-			implementation(libs.ktor.client.js)
+		val desktopMain by getting {
+			dependencies {
+				implementation(compose.desktop.currentOs)
+				implementation(libs.ktor.client.java)
+			}
 		}
 	}
 }

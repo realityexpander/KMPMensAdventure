@@ -60,14 +60,14 @@ actual class GeolocationPosition(
 }
 
 @Composable
-actual fun VideoView(
+actual fun HtmlVideoView(
 	modifier: Modifier,
 ) {
 	Text("VideoView not available on desktop")
 }
 
 @Composable
-actual fun ImageView(
+actual fun HtmlImageView(
 	modifier: Modifier,
 	imageUrl: String
 ) {

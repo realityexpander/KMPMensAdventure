@@ -46,7 +46,7 @@ actual external class GeolocationPosition {
 }
 
 @Composable
-actual fun VideoView(
+actual fun HtmlVideoView(
    modifier: Modifier,
 ) {
    HtmlView(
@@ -68,7 +68,7 @@ actual fun VideoView(
 }
 
 @Composable
-actual fun ImageView(
+actual fun HtmlImageView(
    modifier: Modifier,
    imageUrl: String
 ) {
